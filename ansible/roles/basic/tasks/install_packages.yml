@@ -1,0 +1,10 @@
+---
+- name: installing Debian/Ubuntu pkgs
+  apt: pkg={{ item }} update_cache=yes
+  with_items: "{{packages}}"
+  when: (ansible_os_family == "Debian")
+
+- name: install RHEL/CentOS packages
+  yum: pkg={{ item }}
+  with_items: "{{packages}}"
+  when: (ansible_os_family == "RedHat")
