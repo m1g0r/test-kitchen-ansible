@@ -15,11 +15,14 @@ provisioner:
   ansible_binary_path: /usr/local/bin
   sudo_command: sudo -E -H
   require_chef_for_busser: false
+  require_pip: <%= ENV['REQUIRE_PIP'] %>
+  require_pip3: <%= ENV['REQUIRE_PIP3'] %>
   ansible_version: 4.1.0
   ansible_verbose: true
   ansible_verbosity: 2
   ansible_diff: true
   roles_path: ansible/roles
+  playbook: ansible/<%= ENV['PLAYBOOK_NAME'] %>
 
 suites:
   - name: default

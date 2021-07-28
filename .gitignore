@@ -6,7 +6,3 @@ __pycache__
 vendor
 .kitchen
 .bundle
-
-# final kitchen.local.yml file generated based on the kitchen.yml template according to the playbook that we want to test.
-# That is why this file was added to git ignore because depending on the platform and the playbook, it will be constantly changing.
-kitchen.local.yml

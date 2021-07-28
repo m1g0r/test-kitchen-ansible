@@ -1,27 +1,11 @@
 #!/usr/bin/env python3
 
-import yaml
 import invoke
 import logging
 
 
 # initialize logging
 logging.basicConfig(level=logging.INFO, format=invoke.util.LOG_FORMAT)
-
-
-def _gen_kitchen_options(platform, playbook):
-    with open("kitchen.yml") as f:
-        kitchen = yaml.load(f, Loader=yaml.FullLoader)
-
-    if platform == "ubuntu-1604":
-        kitchen["provisioner"]["require_pip"] = True
-    else:
-        kitchen["provisioner"]["require_pip3"] = True
-
-    kitchen["provisioner"]["playbook"] = f"ansible/{playbook}"
-
-    with open("kitchen.local.yml", "w") as f:
-        yaml.dump(kitchen, f)
 
 
 @invoke.task()
@@ -37,10 +21,9 @@ def list(ctx):
 
 
 @invoke.task()
-def create(ctx, platform, playbook):
+def create(ctx, platform):
     """start test platform"""
     invoke.util.log.info(f"Start {platform} platform")
-    _gen_kitchen_options(platform, playbook)
     ctx.run(
         f"bundle exec kitchen create {platform}",
         env={
@@ -54,12 +37,20 @@ def create(ctx, platform, playbook):
 def converge(ctx, platform, playbook):
     """start provisioning test platform"""
     invoke.util.log.info(f"Start provisioning {platform} platform")
-    _gen_kitchen_options(platform, playbook)
+    if platform == "ubuntu-1604":
+        require_pip = "True"
+        require_pip3 = "False"
+    else:
+        require_pip = "False"
+        require_pip3 = "True"
     ctx.run(
         f"bundle exec kitchen converge {platform}",
         env={
             # Fix issue with Docker not parsing build output for image ID
             "DOCKER_BUILDKIT": "0",
+            "PLAYBOOK_NAME": playbook,
+            "REQUIRE_PIP": require_pip,
+            "REQUIRE_PIP3": require_pip3,
         },
     )
 
@@ -73,14 +64,25 @@ def destroy(ctx):
 
 @invoke.task()
 def test(ctx, platform, playbook):
-    """It will run create, converge, verify and destroy in sequence and you can just chill, watch the logs and enjoy your fantastic Ansible Role!"""
-    _gen_kitchen_options(platform, playbook)
+    """
+    It will run create, converge, verify and destroy in sequence and you can just chill,
+    watch the logs and enjoy your fantastic Ansible Role!
+    """
     invoke.util.log.info(f"Start E2E test on {platform}")
+    if platform == "ubuntu-1604":
+        require_pip = "True"
+        require_pip3 = "False"
+    else:
+        require_pip = "False"
+        require_pip3 = "True"
     ctx.run(
         f"bundle exec kitchen test {platform}",
         env={
             # Fix issue with Docker not parsing build output for image ID
             "DOCKER_BUILDKIT": "0",
+            "PLAYBOOK_NAME": playbook,
+            "REQUIRE_PIP": require_pip,
+            "REQUIRE_PIP3": require_pip3,
         },
     )
 
