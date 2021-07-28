@@ -1,36 +1,56 @@
 # Testing an Ansible role using Test Kitchen
 My experiment with using Test Kitchen and Kitchen Ansible extension to set up automated testing for Ansible roles in Docker.
 
-## Requirements
+### Requirements
 * [Docker](https://www.docker.com/)
 * [Ruby](https://www.ruby-lang.org/)
 * [Ruby Gems](https://rubygems.org/)
 * [Bundler](https://bundler.io/)
 
-## Dependencies
+### Dependencies
 * [test-kitchen](https://github.com/test-kitchen/test-kitchen)
 * [kitchen-docker](https://github.com/test-kitchen/kitchen-docker)
 * [kitchen-ansible](https://github.com/neillturner/kitchen-ansible)
 
-## Getting Started
+### Available platforms:
+- ubuntu-16.04
+- ubuntu-18.04
+- ubuntu-20.04
+
+### Getting Started
 To install all of these we use bundle install
 ```bash
-bundle install --path vendor/bundle
+make init
 ```
-## Start test platforms
+Check all available options:
 ```bash
-bundle exec kitchen list
-bundle exec kitchen create
+invoke --list
+```
+### Start test platforms
+Show a list of supported platforms
+```
+invoke kitchen.list
+```
+Manually start test one of the platform
+```
+invoke kitchen.create ubuntu-1604 playbook.yml
 ```
 If error: "Message: Could not parse Docker build output for image ID"
-```bash
+```
 export DOCKER_BUILDKIT=0
 ```
-## Run Ansible playbook on the test platforms
-```bash
-bundle exec kitchen converge
+Then start test platforms
+
+### Manually run Ansible playbook on the test platforms
 ```
-## Delete test platforms
-```bash
-bundle exec kitchen destroy
+invoke kitchen.converge ubuntu-1604 playbook.yml
 ```
+### Manually delete all test platforms
+```
+invoke kitchen.destroy
+```
+### Alternately you can run the command below:
+```bash
+invoke kitchen.test ubuntu-1604 playbook.aml
+```
+It will run create, converge, verify and destroy in sequence and you can just chill, watch the logs and enjoy your fantastic Ansible Role!
