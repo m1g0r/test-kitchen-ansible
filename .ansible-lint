@@ -1,0 +1,17 @@
+# .ansible-lint
+# https://ansible-lint.readthedocs.io/en/latest/configuring.html
+
+exclude_paths:
+  - .cache/
+  - .git/
+  - .bundle/
+  - .kitchen/
+  - .vendor/
+parseable: true
+quiet: true
+skip_list:
+  - skip
+use_default_rules: true
+verbosity: 1
+kinds:
+  - yaml: "**/*.yaml-too"
