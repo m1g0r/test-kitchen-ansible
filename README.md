@@ -16,6 +16,8 @@ My experiment with using Test Kitchen and Kitchen Ansible extension to set up au
 - ubuntu-16.04
 - ubuntu-18.04
 - ubuntu-20.04
+- centos-7
+- centos-8
 
 ### Getting Started
 To install all of these we use bundle install
