@@ -1,4 +1,8 @@
 .PHONY: init
 
 init:
-	bundle install --path vendor/bundle
+	{ \
+	pipenv shell ;\
+	pipenv install ;\
+	bundle install --path vendor/bundle ;\
+	}
