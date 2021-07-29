@@ -6,6 +6,9 @@ My experiment with using Test Kitchen and Kitchen Ansible extension to set up au
 * [Ruby](https://www.ruby-lang.org/)
 * [Ruby Gems](https://rubygems.org/)
 * [Bundler](https://bundler.io/)
+* [Python3](https://www.python.org/)
+* [Pipenv](https://pipenv.pypa.io/)
+* [Invoke](http://www.pyinvoke.org/)
 
 ### Dependencies
 * [test-kitchen](https://github.com/test-kitchen/test-kitchen)
@@ -20,7 +23,7 @@ My experiment with using Test Kitchen and Kitchen Ansible extension to set up au
 - centos-8
 
 ### Getting Started
-To install all of these we use bundle install
+To create pipenv environment and install all of these we use bundle install
 ```bash
 make init
 ```
